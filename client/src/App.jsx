@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Suspense, lazy } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar';
@@ -6,6 +7,9 @@ import Login from './pages/Login';
 import ProfessorDashboard from './pages/ProfessorDashboard';
 import SessionHistory from './pages/SessionHistory';
 import StudentAttendance from './pages/StudentAttendance';
+
+const Docs = lazy(() => import('./pages/Docs'));
+const ApiDocs = lazy(() => import('./pages/ApiDocs'));
 
 function ProtectedRoute({ children, requireProfessor = false }) {
   const { isAuthenticated, isProfessor } = useAuth();
@@ -20,6 +24,7 @@ function AppRoutes() {
   return (
     <>
       <Navbar />
+      <Suspense fallback={<div style={{ padding: '48px', textAlign: 'center', color: '#6b7280' }}>Loading...</div>}>
       <Routes>
         <Route path="/" element={<Navigate to={isAuthenticated ? '/professor/dashboard' : '/login'} replace />} />
         <Route path="/login" element={<Login />} />
@@ -40,8 +45,11 @@ function AppRoutes() {
           }
         />
         <Route path="/attend" element={<StudentAttendance />} />
+        <Route path="/docs" element={<Docs />} />
+        <Route path="/api" element={<ApiDocs />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      </Suspense>
     </>
   );
 }
