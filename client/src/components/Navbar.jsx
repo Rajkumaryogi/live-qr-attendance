@@ -33,6 +33,12 @@ export default function Navbar() {
             </Link>
           </>
         )}
+        <Link to="/docs" style={{ color: '#bfdbfe', textDecoration: 'none', fontSize: '14px' }}>
+          Docs
+        </Link>
+        <Link to="/api" style={{ color: '#bfdbfe', textDecoration: 'none', fontSize: '14px' }}>
+          API
+        </Link>
         {isAuthenticated && (
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <span style={{ color: '#e0e7ff', fontSize: '14px' }}>{user?.name || user?.email}</span>
